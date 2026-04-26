@@ -1,7 +1,7 @@
 /* ElectAssist – app.js */
 
 // ── STATE ──────────────────────────────────────────────
-let apiKey = sessionStorage.getItem('ea_api_key') || '';
+const apiKey = 'AIzaSyAkpyCAWKloO7Zpd0UCt24LaQtgejIuwT4';
 let chatHistory = [];
 let isTyping = false;
 
@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
   buildQuickActions();
   initChat();
   initScrollAnimations();
-  if (apiKey) hideBanner();
 });
 
 // ── PARTICLES ──────────────────────────────────────────
@@ -213,12 +212,6 @@ function initChat() {
   sendBtn.addEventListener('click', sendMessage);
   input.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } });
 
-  // API key submit
-  document.getElementById('api-key-submit').addEventListener('click', () => {
-    const val = document.getElementById('api-key-input').value.trim();
-    if (val) { apiKey = val; sessionStorage.setItem('ea_api_key', val); hideBanner(); }
-  });
-
   // Quick chips
   document.querySelectorAll('.chat-chip').forEach(chip => {
     chip.addEventListener('click', () => sendUserMessage(chip.dataset.msg));
@@ -240,11 +233,6 @@ function openChat(prompt) {
 
 function closeChat() {
   document.getElementById('chat-panel').classList.remove('open');
-}
-
-function hideBanner() {
-  const banner = document.getElementById('api-key-banner');
-  if (banner) banner.style.display = 'none';
 }
 
 function addAIMessage(text) {
