@@ -1,7 +1,6 @@
 /* ElectAssist – app.js */
 
 // ── STATE ──────────────────────────────────────────────
-const apiKey = 'AIzaSyAkpyCAWKloO7Zpd0UCt24LaQtgejIuwT4';
 let chatHistory = [];
 let isTyping = false;
 
@@ -315,7 +314,7 @@ async function sendUserMessage(text) {
 }
 
 async function callGemini(userText) {
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+  const url = `https://nurcpekbgfougatpsmfk.supabase.co/functions/v1/chat`;
   const body = {
     system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
     contents: chatHistory,
