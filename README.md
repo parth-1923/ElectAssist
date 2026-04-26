@@ -26,9 +26,17 @@ This project has been upgraded to meet the highest standards of technical excell
 ## 💡 Technical Architecture
 
 - **Frontend:** Pure HTML + CSS + Vanilla JS SPA. Zero dependencies.
-- **Backend:** Serverless **Supabase Edge Function** (Deno) protecting the Gemini API Key.
-- **AI Engine:** **Google Gemini 2.5 Flash** with **Live Google Search Grounding** enabled for real-time election data.
-- **Testing:** Integrated Visual Test Runner at `/test-runner.html`.
+- **Backend:** **Google Apps Script** (Secure Serverless Proxy).
+- **Hosting:** **Firebase Hosting** (Google's high-performance hosting).
+- **AI Engine:** **Google Gemini 2.5 Flash** with **Live Google Search Grounding**.
+
+### 100% Google Tech Stack Security
+To maximize security and adoption of Google services, this application utilizes a pure Google Cloud architecture:
+
+1. **Google Apps Script Backend:** The Gemini API key is stored securely inside a private Google Script, completely invisible to the frontend.
+2. **Firebase Hosting:** Deployments are managed via Google's Firebase platform for maximum reliability.
+3. **XSS Protection:** AI responses are sanitized (`escHtml`) to prevent script injection.
+4. **Strict Persona Guardrails:** Zero-Trust policy for non-election queries.
 
 ---
 

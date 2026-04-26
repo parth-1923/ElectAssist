@@ -317,7 +317,7 @@ async function sendUserMessage(text) {
 }
 
 async function callGemini(userText) {
-  const url = `https://nurcpekbgfougatpsmfk.supabase.co/functions/v1/chat`;
+  const url = `https://script.google.com/macros/s/AKfycbyIH_xVueM5F7-RWg9CoNUdeZRQ-i6Q9EsgateBYYYxoV_t5FVIXXXP-CgI9A7GnkNm4A/exec`;
   
   // Inject language context into the system prompt dynamiclly
   const langContext = ` IMPORTANT: The user's preferred language is ${currentLang}. 
