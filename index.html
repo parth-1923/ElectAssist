@@ -48,6 +48,14 @@
     ElectAssist
   </a>
   <div class="nav-links">
+    <div class="lang-selector">
+      <span class="material-symbols-rounded">language</span>
+      <select id="lang-select">
+        <option value="en">English</option>
+        <option value="hi">हिन्दी (Hindi)</option>
+        <option value="ta">தமிழ் (Tamil)</option>
+      </select>
+    </div>
     <a href="#quick-actions">Quick Guide</a>
     <a href="#timeline">Timeline</a>
     <a href="#guide">Voter Guide</a>
@@ -192,7 +200,7 @@
     <button id="chat-close" aria-label="Close chat"><span class="material-symbols-rounded">close</span></button>
   </div>
 
-  <div class="chat-messages" id="chat-messages"></div>
+  <div class="chat-messages" id="chat-messages" aria-live="polite"></div>
 
   <div class="chat-chips">
     <button class="chat-chip" data-msg="How do I register as a voter?">📋 Register</button>
@@ -210,7 +218,7 @@
   </div>
 </div>
 
-<script src="data.js?v=8"></script>
-<script src="app.js?v=8"></script>
+<script src="data.js?v=9"></script>
+<script src="app.js?v=9"></script>
 </body>
 </html>

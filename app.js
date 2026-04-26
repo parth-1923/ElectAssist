@@ -2,6 +2,7 @@
 
 // ── STATE ──────────────────────────────────────────────
 let chatHistory = [];
+let currentLang = 'en';
 let isTyping = false;
 
 // ── INIT ───────────────────────────────────────────────
@@ -12,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   buildFAQ();
   buildQuickActions();
   initChat();
+  initLang();
   initScrollAnimations();
 });
 
@@ -211,6 +213,12 @@ function initChat() {
   sendBtn.addEventListener('click', sendMessage);
   input.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } });
 
+  // Lang selection
+  document.getElementById('lang-select').addEventListener('change', (e) => {
+    currentLang = e.target.value;
+    updateUILanguage();
+  });
+
   // Quick chips
   document.querySelectorAll('.chat-chip').forEach(chip => {
     chip.addEventListener('click', () => sendUserMessage(chip.dataset.msg));
@@ -310,10 +318,17 @@ async function sendUserMessage(text) {
 
 async function callGemini(userText) {
   const url = `https://nurcpekbgfougatpsmfk.supabase.co/functions/v1/chat`;
+  
+  // Inject language context into the system prompt dynamiclly
+  const langContext = ` IMPORTANT: The user's preferred language is ${currentLang}. 
+    - If language is 'hi', respond in Hindi. 
+    - If language is 'ta', respond in Tamil. 
+    - Always maintain the expert ElectAssist persona regardless of language.`;
+
   const body = {
-    system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
+    system_instruction: { parts: [{ text: SYSTEM_PROMPT + langContext }] },
     contents: chatHistory,
-    generationConfig: { maxOutputTokens: 600, temperature: 0.4 },
+    generationConfig: { maxOutputTokens: 1000, temperature: 0.4 },
     tools: [{ googleSearch: {} }]
   };
   const res = await fetch(url, {
@@ -358,6 +373,21 @@ function getFallbackResponse(text) {
   }
   // Generic fallback
   return "Great question! To get the most accurate and detailed answer, please **enter your Gemini API key** above (click the key icon) — it's free to get at [ai.google.dev](https://ai.google.dev).\n\nIn the meantime, you can explore our **Timeline**, **Voter Guide**, and **FAQ** sections for comprehensive information about Indian elections. 🗳️";
+}
+
+function initLang() {
+  const savedLang = localStorage.getItem('ea_lang');
+  if (savedLang) {
+    currentLang = savedLang;
+    document.getElementById('lang-select').value = savedLang;
+    updateUILanguage();
+  }
+}
+
+function updateUILanguage() {
+  localStorage.setItem('ea_lang', currentLang);
+  // We can add logic here to translate static labels like "Ask AI", "Timeline" etc.
+  // For now, it mainly affects the AI response language
 }
 
 // ── SCROLL ANIMATIONS ──────────────────────────────────
