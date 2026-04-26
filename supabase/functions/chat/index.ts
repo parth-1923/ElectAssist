@@ -20,11 +20,11 @@ serve(async (req) => {
     // The frontend will send the exact body structure expected by Gemini
     const body = await req.json();
 
-    const { chatHistory, system_instruction, generationConfig, tools } = body;
+    const { contents, system_instruction, generationConfig, tools } = body;
 
     const geminiBody = {
       system_instruction,
-      contents: chatHistory,
+      contents,
       generationConfig,
       tools
     };
