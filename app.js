@@ -294,12 +294,7 @@ async function sendUserMessage(text) {
   showTyping();
 
   try {
-    let reply = '';
-    if (!apiKey) {
-      reply = getFallbackResponse(text);
-    } else {
-      reply = await callGemini(text);
-    }
+    let reply = await callGemini(text);
     hideTyping();
     addAIMessage(reply);
     chatHistory.push({ role: 'model', parts: [{ text: reply }] });
