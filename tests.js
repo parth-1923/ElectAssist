@@ -30,9 +30,9 @@ const tests = {
   // ── INTEGRATION TESTS: DATA & UI ──────────────────
   testFAQRendering: () => {
     console.log('Running: testFAQRendering...');
-    // Mock the FAQ container
+    // Mock the FAQ container (actual ID is faq-list)
     const mockContainer = document.createElement('div');
-    mockContainer.id = 'faq-container';
+    mockContainer.id = 'faq-list';
     document.body.appendChild(mockContainer);
     
     buildFAQ(); // This should populate the container
