@@ -333,7 +333,7 @@ async function callGemini(userText) {
   };
   const res = await fetch(url, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'text/plain' },
     body: JSON.stringify(body)
   });
   if (!res.ok) {
