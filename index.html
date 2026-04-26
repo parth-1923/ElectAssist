@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="ElectAssist — Your AI-powered guide to India's election process. Understand voter registration, election timelines, EVMs, candidate nomination, and more." />
+  <meta property="og:title" content="ElectAssist — India Election Process Assistant" />
+  <meta property="og:description" content="Interactive AI guide to understanding Indian elections, voter registration, timelines, and democratic processes." />
+  <title>ElectAssist — India Election Process Assistant</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0" />
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <a href="#" class="nav-logo">
+    <svg class="chakra-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50" cy="50" r="46" stroke="#FF9933" stroke-width="3"/>
+      <circle cx="50" cy="50" r="8" fill="#000080"/>
+      <g stroke="#000080" stroke-width="2.2">
+        <line x1="50" y1="4" x2="50" y2="96"/>
+        <line x1="4" y1="50" x2="96" y2="50"/>
+        <line x1="19.7" y1="19.7" x2="80.3" y2="80.3"/>
+        <line x1="80.3" y1="19.7" x2="19.7" y2="80.3"/>
+        <line x1="50" y1="4" x2="67.3" y2="12"/>
+        <line x1="50" y1="4" x2="32.7" y2="12"/>
+        <line x1="96" y1="50" x2="88" y2="67.3"/>
+        <line x1="96" y1="50" x2="88" y2="32.7"/>
+        <line x1="50" y1="96" x2="32.7" y2="88"/>
+        <line x1="50" y1="96" x2="67.3" y2="88"/>
+        <line x1="4" y1="50" x2="12" y2="32.7"/>
+        <line x1="4" y1="50" x2="12" y2="67.3"/>
+        <line x1="19.7" y1="19.7" x2="12" y2="32.7"/>
+        <line x1="19.7" y1="19.7" x2="32.7" y2="12"/>
+        <line x1="80.3" y1="19.7" x2="67.3" y2="12"/>
+        <line x1="80.3" y1="19.7" x2="88" y2="32.7"/>
+        <line x1="80.3" y1="80.3" x2="88" y2="67.3"/>
+        <line x1="80.3" y1="80.3" x2="67.3" y2="88"/>
+        <line x1="19.7" y1="80.3" x2="32.7" y2="88"/>
+        <line x1="19.7" y1="80.3" x2="12" y2="67.3"/>
+        <line x1="50" y1="4" x2="57" y2="7.5"/>
+        <line x1="50" y1="4" x2="43" y2="7.5"/>
+        <line x1="96" y1="50" x2="92.5" y2="57"/>
+        <line x1="96" y1="50" x2="92.5" y2="43"/>
+      </g>
+    </svg>
+    ElectAssist
+  </a>
+  <div class="nav-links">
+    <a href="#quick-actions">Quick Guide</a>
+    <a href="#timeline">Timeline</a>
+    <a href="#guide">Voter Guide</a>
+    <a href="#faq">FAQ</a>
+    <a href="#" class="nav-cta" onclick="toggleChat(); return false;">Ask AI 🗳️</a>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-particles" id="particles"></div>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="material-symbols-rounded" style="font-size:0.9rem">verified</span>
+      India's Democratic Process Guide
+    </div>
+    <svg class="hero-ashoka" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="100" cy="100" r="92" stroke="#FF9933" stroke-width="6" opacity="0.6"/>
+      <circle cx="100" cy="100" r="20" fill="#000080"/>
+      <circle cx="100" cy="100" r="10" fill="#FF9933"/>
+      <g stroke="#000080" stroke-width="3" opacity="0.9">
+        <line x1="100" y1="8" x2="100" y2="192"/>
+        <line x1="8" y1="100" x2="192" y2="100"/>
+        <line x1="39.4" y1="39.4" x2="160.6" y2="160.6"/>
+        <line x1="160.6" y1="39.4" x2="39.4" y2="160.6"/>
+        <line x1="100" y1="8" x2="134.6" y2="24"/>
+        <line x1="100" y1="8" x2="65.4" y2="24"/>
+        <line x1="192" y1="100" x2="176" y2="134.6"/>
+        <line x1="192" y1="100" x2="176" y2="65.4"/>
+        <line x1="100" y1="192" x2="65.4" y2="176"/>
+        <line x1="100" y1="192" x2="134.6" y2="176"/>
+        <line x1="8" y1="100" x2="24" y2="65.4"/>
+        <line x1="8" y1="100" x2="24" y2="134.6"/>
+        <line x1="39.4" y1="39.4" x2="24" y2="65.4"/>
+        <line x1="39.4" y1="39.4" x2="65.4" y2="24"/>
+        <line x1="160.6" y1="39.4" x2="134.6" y2="24"/>
+        <line x1="160.6" y1="39.4" x2="176" y2="65.4"/>
+        <line x1="160.6" y1="160.6" x2="176" y2="134.6"/>
+        <line x1="160.6" y1="160.6" x2="134.6" y2="176"/>
+        <line x1="39.4" y1="160.6" x2="65.4" y2="176"/>
+        <line x1="39.4" y1="160.6" x2="24" y2="134.6"/>
+        <line x1="100" y1="8" x2="114" y2="15"/>
+        <line x1="100" y1="8" x2="86" y2="15"/>
+        <line x1="192" y1="100" x2="185" y2="114"/>
+        <line x1="192" y1="100" x2="185" y2="86"/>
+        <line x1="100" y1="192" x2="86" y2="185"/>
+        <line x1="100" y1="192" x2="114" y2="185"/>
+        <line x1="8" y1="100" x2="15" y2="86"/>
+        <line x1="8" y1="100" x2="15" y2="114"/>
+      </g>
+    </svg>
+    <h1 class="hero-title">Your Guide to India's Democratic Process</h1>
+    <p class="hero-subtitle">
+      From voter registration to result declaration — understand every step of the Indian election process with AI-powered guidance.
+    </p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="toggleChat()">
+        <span class="material-symbols-rounded">smart_toy</span> Ask ElectAssist AI
+      </button>
+      <button class="btn-secondary" onclick="document.getElementById('timeline').scrollIntoView({behavior:'smooth'})">
+        <span class="material-symbols-rounded">timeline</span> Explore Timeline
+      </button>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">97Cr+</div><div class="stat-label">Registered Voters</div></div>
+      <div class="stat"><div class="stat-num">10</div><div class="stat-label">Election Phases</div></div>
+      <div class="stat"><div class="stat-num">543</div><div class="stat-label">Lok Sabha Seats</div></div>
+      <div class="stat"><div class="stat-num">1950</div><div class="stat-label">Voter Helpline</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── QUICK ACTIONS ── -->
+<section id="quick-actions">
+  <div class="section-label"><span class="material-symbols-rounded">bolt</span> Quick Help</div>
+  <h2 class="section-title">What do you need help with?</h2>
+  <p class="section-sub">Click any card to get instant AI-powered guidance on that topic.</p>
+  <div class="qa-grid" id="qa-grid"></div>
+</section>
+
+<!-- ── TIMELINE ── -->
+<section id="timeline">
+  <div class="section-label"><span class="material-symbols-rounded">timeline</span> Election Process</div>
+  <h2 class="section-title">India's Election Timeline</h2>
+  <p class="section-sub">Step-by-step breakdown of the entire election process — from announcement to government formation.</p>
+  <div class="timeline-container">
+    <div class="timeline-track"></div>
+    <div class="timeline-items" id="timeline-items"></div>
+  </div>
+</section>
+
+<!-- ── VOTER GUIDE ── -->
+<section id="guide">
+  <div class="section-label"><span class="material-symbols-rounded">menu_book</span> Voter Guide</div>
+  <h2 class="section-title">Step-by-Step Guide</h2>
+  <p class="section-sub">Select your role to see a personalized, actionable guide with interactive checklists.</p>
+  <div class="guide-tabs" id="guide-tabs"></div>
+  <div id="guide-content"></div>
+</section>
+
+<!-- ── FAQ ── -->
+<section id="faq">
+  <div class="section-label"><span class="material-symbols-rounded">help</span> FAQ</div>
+  <h2 class="section-title">Frequently Asked Questions</h2>
+  <p class="section-sub">Find answers to the most common questions about Indian elections.</p>
+  <div class="faq-search-wrap">
+    <span class="material-symbols-rounded faq-search-icon">search</span>
+    <input type="text" id="faq-search" class="faq-search" placeholder="Search questions…" autocomplete="off" />
+  </div>
+  <div class="faq-list" id="faq-list"></div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-logo">🗳️ ElectAssist</div>
+  <p>Your AI-powered guide to India's democratic process.</p>
+  <p style="margin-top:6px">Built with ❤️ for every Indian citizen's right to informed participation.</p>
+  <div class="footer-links">
+    <a href="https://eci.gov.in" target="_blank" rel="noopener">Election Commission of India</a>
+    <a href="https://voters.eci.gov.in" target="_blank" rel="noopener">Voter Registration Portal</a>
+    <a href="https://results.eci.gov.in" target="_blank" rel="noopener">Election Results</a>
+    <a href="https://cvigil.eci.gov.in" target="_blank" rel="noopener">cVIGIL App</a>
+  </div>
+  <p style="margin-top:20px; font-size:0.75rem; opacity:0.5">For educational purposes only. Always verify with official ECI sources.</p>
+</footer>
+
+<!-- ── CHAT FAB ── -->
+<button id="chat-fab" aria-label="Open Election Assistant">
+  <span class="material-symbols-rounded">smart_toy</span>
+  <span id="chat-fab-label">Ask AI</span>
+</button>
+
+<!-- ── CHAT PANEL ── -->
+<div id="chat-panel" role="dialog" aria-label="ElectAssist Chat">
+  <div class="chat-header">
+    <div class="chat-avatar">🗳️</div>
+    <div class="chat-header-info">
+      <h4>ElectAssist AI</h4>
+      <div class="chat-status">Online · India Elections Expert</div>
+    </div>
+    <button id="chat-close" aria-label="Close chat"><span class="material-symbols-rounded">close</span></button>
+  </div>
+
+  <div id="api-key-banner">
+    <p>🔑 Enter your Gemini API key for full AI responses (free at <strong>ai.google.dev</strong>). Skip to use built-in answers.</p>
+    <div class="api-key-row">
+      <input type="password" id="api-key-input" placeholder="AIza…" autocomplete="off" />
+      <button id="api-key-submit">Activate</button>
+    </div>
+  </div>
+
+  <div class="chat-messages" id="chat-messages"></div>
+
+  <div class="chat-chips">
+    <button class="chat-chip" data-msg="How do I register as a voter?">📋 Register</button>
+    <button class="chat-chip" data-msg="What is VVPAT and how does it work?">🖨️ VVPAT</button>
+    <button class="chat-chip" data-msg="What is NOTA?">❌ NOTA</button>
+    <button class="chat-chip" data-msg="How do I report a MCC violation using cVIGIL?">🚨 Report</button>
+    <button class="chat-chip" data-msg="What documents do I need to vote?">🪪 Valid IDs</button>
+  </div>
+
+  <div class="chat-input-row">
+    <input type="text" id="chat-input" placeholder="Ask about Indian elections…" autocomplete="off" />
+    <button id="chat-send" aria-label="Send">
+      <span class="material-symbols-rounded">send</span>
+    </button>
+  </div>
+</div>
+
+<script src="data.js?v=5"></script>
+<script src="app.js?v=5"></script>
+</body>
+</html>
