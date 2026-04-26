@@ -313,7 +313,8 @@ async function callGemini(userText) {
   const body = {
     system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
     contents: chatHistory,
-    generationConfig: { maxOutputTokens: 600, temperature: 0.4 }
+    generationConfig: { maxOutputTokens: 600, temperature: 0.4 },
+    tools: [{ googleSearch: {} }]
   };
   const res = await fetch(url, {
     method: 'POST',

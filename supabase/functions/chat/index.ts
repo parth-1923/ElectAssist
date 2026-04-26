@@ -20,13 +20,22 @@ serve(async (req) => {
     // The frontend will send the exact body structure expected by Gemini
     const body = await req.json();
 
+    const { chatHistory, system_instruction, generationConfig, tools } = body;
+
+    const geminiBody = {
+      system_instruction,
+      contents: chatHistory,
+      generationConfig,
+      tools
+    };
+
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
     
     // Forward the request to Google
     const response = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
+      body: JSON.stringify(geminiBody)
     });
 
     const data = await response.json();
