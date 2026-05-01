@@ -5,6 +5,18 @@ let chatHistory = [];
 let currentLang = 'en';
 let isTyping = false;
 
+// ── GOOGLE ANALYTICS 4 HELPER ──────────────────────────
+/**
+ * Fires a Google Analytics 4 custom event if gtag is available.
+ * @param {string} eventName - GA4 event name (snake_case)
+ * @param {Object} [params={}] - Additional event parameters
+ */
+function gaEvent(eventName, params = {}) {
+  if (typeof gtag === 'function') {
+    gtag('event', eventName, params);
+  }
+}
+
 // ── INIT ───────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   buildParticles();
@@ -15,13 +27,17 @@ document.addEventListener('DOMContentLoaded', () => {
   initChat();
   initLang();
   initScrollAnimations();
+  initFAQSearch();   // moved here — single DOMContentLoaded listener
 });
 
 // ── PARTICLES ──────────────────────────────────────────
+/**
+ * Generates decorative floating particles in the hero section.
+ */
 function buildParticles() {
   const container = document.getElementById('particles');
   if (!container) return;
-  const sizes = [4,6,8,10,14];
+  const sizes = [4, 6, 8, 10, 14];
   for (let i = 0; i < 18; i++) {
     const p = document.createElement('div');
     p.className = 'particle';
@@ -38,6 +54,9 @@ function buildParticles() {
 }
 
 // ── TIMELINE ───────────────────────────────────────────
+/**
+ * Dynamically renders the election timeline from ELECTION_TIMELINE data.
+ */
 function buildTimeline() {
   const container = document.getElementById('timeline-items');
   if (!container) return;
@@ -66,6 +85,10 @@ function buildTimeline() {
   });
 }
 
+/**
+ * Toggles a timeline accordion item open/closed.
+ * @param {HTMLElement} header - The clicked .tl-header element
+ */
 function toggleTL(header) {
   const item = header.closest('.tl-item');
   const isOpen = item.classList.contains('open');
@@ -74,13 +97,15 @@ function toggleTL(header) {
 }
 
 // ── VOTER GUIDE ────────────────────────────────────────
+/**
+ * Renders the role-based voter guide tabs and step content from ROLE_GUIDES data.
+ */
 function buildGuide() {
   const tabsEl = document.getElementById('guide-tabs');
   const contentEl = document.getElementById('guide-content');
   if (!tabsEl || !contentEl) return;
 
   Object.entries(ROLE_GUIDES).forEach(([key, guide], idx) => {
-    // Tab
     const tab = document.createElement('button');
     tab.className = `guide-tab${idx === 0 ? ' active' : ''}`;
     tab.dataset.role = key;
@@ -89,7 +114,6 @@ function buildGuide() {
     tab.onclick = () => switchGuide(key);
     tabsEl.appendChild(tab);
 
-    // Content
     const div = document.createElement('div');
     div.className = `guide-content${idx === 0 ? ' active' : ''}`;
     div.id = `guide-${key}`;
@@ -112,7 +136,7 @@ function buildGuide() {
                 <div class="gs-checklist">
                   ${step.checklist.map(c => `
                     <label class="gs-check">
-                      <input type="checkbox">
+                      <input type="checkbox" aria-label="${escHtml(c)}">
                       <div class="check-box"></div>
                       <span>${c}</span>
                     </label>`).join('')}
@@ -125,6 +149,10 @@ function buildGuide() {
   });
 }
 
+/**
+ * Switches the active voter guide tab and content panel.
+ * @param {string} key - Role key matching a ROLE_GUIDES entry
+ */
 function switchGuide(key) {
   document.querySelectorAll('.guide-tab').forEach(t => {
     t.classList.remove('active');
@@ -136,61 +164,90 @@ function switchGuide(key) {
   if (activeTab) { activeTab.classList.add('active'); activeTab.style.background = guide.color; }
   const activeContent = document.getElementById(`guide-${key}`);
   if (activeContent) activeContent.classList.add('active');
+  gaEvent('guide_tab_switch', { role: key });
 }
 
+/**
+ * Toggles a guide step accordion open/closed.
+ * @param {HTMLElement} header - The clicked .gs-header element
+ */
 function toggleGS(header) {
-  const item = header.closest('.gs-item');
-  item.classList.toggle('open');
+  header.closest('.gs-item').classList.toggle('open');
 }
 
 // ── FAQ ─────────────────────────────────────────────────
+/**
+ * Renders the FAQ list from FAQS data into the #faq-list container.
+ */
 function buildFAQ() {
   const list = document.getElementById('faq-list');
   if (!list) return;
-  FAQS.forEach((faq, i) => {
+  FAQS.forEach(faq => {
     const el = document.createElement('div');
     el.className = 'faq-item';
     el.dataset.q = faq.q.toLowerCase();
     el.innerHTML = `
-      <div class="faq-q" onclick="toggleFAQ(this)">
+      <div class="faq-q" onclick="toggleFAQ(this)" role="button" tabindex="0"
+           aria-expanded="false" onkeydown="if(event.key==='Enter')toggleFAQ(this)">
         <span>${faq.q}</span>
-        <span class="material-symbols-rounded faq-arrow">expand_more</span>
+        <span class="material-symbols-rounded faq-arrow" aria-hidden="true">expand_more</span>
       </div>
-      <div class="faq-a"><p>${faq.a}</p></div>`;
+      <div class="faq-a" role="region"><p>${faq.a}</p></div>`;
     list.appendChild(el);
   });
 }
 
+/**
+ * Toggles a FAQ item open/closed and updates ARIA state.
+ * @param {HTMLElement} header - The clicked .faq-q element
+ */
 function toggleFAQ(header) {
   const item = header.closest('.faq-item');
   const isOpen = item.classList.contains('open');
-  document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
-  if (!isOpen) item.classList.add('open');
+  document.querySelectorAll('.faq-item.open').forEach(el => {
+    el.classList.remove('open');
+    el.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+  });
+  if (!isOpen) {
+    item.classList.add('open');
+    header.setAttribute('aria-expanded', 'true');
+  }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+/**
+ * Initialises the FAQ live search/filter input.
+ * Must be called once after buildFAQ().
+ */
+function initFAQSearch() {
   const searchEl = document.getElementById('faq-search');
-  if (searchEl) {
-    searchEl.addEventListener('input', e => {
-      const q = e.target.value.toLowerCase();
-      document.querySelectorAll('.faq-item').forEach(item => {
-        item.classList.toggle('hidden', q && !item.dataset.q.includes(q));
-      });
+  if (!searchEl) return;
+  searchEl.setAttribute('aria-label', 'Search frequently asked questions');
+  searchEl.addEventListener('input', e => {
+    const q = e.target.value.toLowerCase();
+    document.querySelectorAll('.faq-item').forEach(item => {
+      item.classList.toggle('hidden', !!q && !item.dataset.q.includes(q));
     });
-  }
-});
+  });
+}
 
 // ── QUICK ACTIONS ──────────────────────────────────────
+/**
+ * Renders quick-action cards from QUICK_ACTIONS data into the #qa-grid container.
+ */
 function buildQuickActions() {
   const grid = document.getElementById('qa-grid');
   if (!grid) return;
   QUICK_ACTIONS.forEach(qa => {
     const card = document.createElement('div');
     card.className = 'qa-card animate-on-scroll';
-    card.onclick = () => { openChat(qa.prompt); };
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('aria-label', qa.title);
+    card.onclick = () => { openChat(qa.prompt); gaEvent('quick_action_click', { action: qa.id }); };
+    card.onkeydown = e => { if (e.key === 'Enter') card.onclick(); };
     card.innerHTML = `
       <div class="qa-icon" style="background:${qa.color}22">
-        <span class="material-symbols-rounded" style="color:${qa.color}">${qa.icon}</span>
+        <span class="material-symbols-rounded" style="color:${qa.color}" aria-hidden="true">${qa.icon}</span>
       </div>
       <div>
         <h3>${qa.title}</h3>
@@ -201,25 +258,28 @@ function buildQuickActions() {
 }
 
 // ── CHAT ───────────────────────────────────────────────
+/**
+ * Initialises all chat UI event listeners and renders the welcome message.
+ */
 function initChat() {
-  const fab = document.getElementById('chat-fab');
-  const panel = document.getElementById('chat-panel');
+  const fab      = document.getElementById('chat-fab');
   const closeBtn = document.getElementById('chat-close');
-  const sendBtn = document.getElementById('chat-send');
-  const input = document.getElementById('chat-input');
+  const sendBtn  = document.getElementById('chat-send');
+  const input    = document.getElementById('chat-input');
 
-  fab.addEventListener('click', () => toggleChat());
-  closeBtn.addEventListener('click', () => closeChat());
+  fab.addEventListener('click', toggleChat);
+  closeBtn.addEventListener('click', closeChat);
   sendBtn.addEventListener('click', sendMessage);
-  input.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } });
-
-  // Lang selection
-  document.getElementById('lang-select').addEventListener('change', (e) => {
-    currentLang = e.target.value;
-    updateUILanguage();
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
   });
 
-  // Quick chips
+  document.getElementById('lang-select').addEventListener('change', e => {
+    currentLang = e.target.value;
+    updateUILanguage();
+    gaEvent('language_change', { language: currentLang });
+  });
+
   document.querySelectorAll('.chat-chip').forEach(chip => {
     chip.addEventListener('click', () => sendUserMessage(chip.dataset.msg));
   });
@@ -227,51 +287,69 @@ function initChat() {
   addAIMessage("Jai Hind! 🇮🇳 I'm **ElectAssist**, your guide to India's democratic process.\n\nAsk me anything about voter registration, election timelines, EVMs, how to contest elections, or anything else. How can I help you today?");
 }
 
+/** Opens or closes the chat panel. */
 function toggleChat() {
-  const panel = document.getElementById('chat-panel');
-  panel.classList.toggle('open');
+  document.getElementById('chat-panel').classList.toggle('open');
 }
 
+/**
+ * Opens the chat panel and optionally sends a pre-filled prompt.
+ * @param {string} [prompt] - Optional message to send automatically
+ */
 function openChat(prompt) {
-  document.getElementById('chat-panel').classList.add('open');
-  document.getElementById('chat-panel').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  const panel = document.getElementById('chat-panel');
+  panel.classList.add('open');
+  panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   if (prompt) setTimeout(() => sendUserMessage(prompt), 300);
 }
 
+/** Closes the chat panel. */
 function closeChat() {
   document.getElementById('chat-panel').classList.remove('open');
 }
 
+/**
+ * Appends an AI message bubble to the chat window.
+ * @param {string} text - Markdown-formatted message text
+ */
 function addAIMessage(text) {
   const msgs = document.getElementById('chat-messages');
   const div = document.createElement('div');
   div.className = 'chat-msg ai';
+  div.setAttribute('aria-live', 'polite');
   div.innerHTML = `
-    <div class="msg-avatar">🗳️</div>
+    <div class="msg-avatar" aria-hidden="true">🗳️</div>
     <div class="msg-bubble">${formatMsg(text)}</div>`;
   msgs.appendChild(div);
   msgs.scrollTop = msgs.scrollHeight;
 }
 
+/**
+ * Appends a user message bubble to the chat window.
+ * @param {string} text - Raw user input (will be HTML-escaped)
+ */
 function addUserMessage(text) {
   const msgs = document.getElementById('chat-messages');
   const div = document.createElement('div');
   div.className = 'chat-msg user';
   div.innerHTML = `
-    <div class="msg-avatar">👤</div>
+    <div class="msg-avatar" aria-hidden="true">👤</div>
     <div class="msg-bubble">${escHtml(text)}</div>`;
   msgs.appendChild(div);
   msgs.scrollTop = msgs.scrollHeight;
 }
 
+/** Shows the animated typing indicator while awaiting an AI response. */
 function showTyping() {
   const msgs = document.getElementById('chat-messages');
   const div = document.createElement('div');
-  div.className = 'chat-msg ai'; div.id = 'typing-indicator';
+  div.className = 'chat-msg ai';
+  div.id = 'typing-indicator';
+  div.setAttribute('aria-label', 'ElectAssist is typing');
   div.innerHTML = `
-    <div class="msg-avatar">🗳️</div>
+    <div class="msg-avatar" aria-hidden="true">🗳️</div>
     <div class="msg-bubble">
-      <div class="typing-indicator">
+      <div class="typing-indicator" role="status">
         <div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>
       </div>
     </div>`;
@@ -279,11 +357,15 @@ function showTyping() {
   msgs.scrollTop = msgs.scrollHeight;
 }
 
+/** Removes the typing indicator from the chat window. */
 function hideTyping() {
   const el = document.getElementById('typing-indicator');
   if (el) el.remove();
 }
 
+/**
+ * Reads the chat input, validates it, then delegates to sendUserMessage.
+ */
 async function sendMessage() {
   const input = document.getElementById('chat-input');
   const text = input.value.trim();
@@ -292,6 +374,10 @@ async function sendMessage() {
   await sendUserMessage(text);
 }
 
+/**
+ * Sends a user message to the AI, updates the chat history, and renders the reply.
+ * @param {string} text - The message to send
+ */
 async function sendUserMessage(text) {
   if (!text || isTyping) return;
   addUserMessage(text);
@@ -301,14 +387,16 @@ async function sendUserMessage(text) {
   document.getElementById('chat-send').disabled = true;
   showTyping();
 
+  gaEvent('chat_message_sent', { language: currentLang, message_length: text.length });
+
   try {
-    let reply = await callGemini(text);
+    const reply = await callGemini(text);
     hideTyping();
     addAIMessage(reply);
     chatHistory.push({ role: 'model', parts: [{ text: reply }] });
   } catch (err) {
     hideTyping();
-    addAIMessage('Sorry, I encountered an error. Please check your API key or try again shortly.');
+    addAIMessage('Sorry, I encountered an error. Please try again shortly.');
     console.error(err);
   } finally {
     isTyping = false;
@@ -316,13 +404,27 @@ async function sendUserMessage(text) {
   }
 }
 
+/**
+ * Calls the Google Apps Script proxy, which forwards the request to Gemini 2.5 Flash
+ * with Google Search grounding and the ElectAssist system prompt.
+ *
+ * Google Services used:
+ *  - Google Apps Script (secure API proxy / serverless backend)
+ *  - Google Gemini 2.5 Flash (AI model via Generative Language API)
+ *  - Google Search grounding (live search tool within Gemini)
+ *  - Google Firebase Hosting (static site deployment)
+ *  - Google Analytics 4 (usage and event tracking)
+ *
+ * @param {string} userText - The user's message
+ * @returns {Promise<string>} The AI-generated reply
+ * @throws {Error} On non-OK HTTP response or API error
+ */
 async function callGemini(userText) {
   const url = `https://script.google.com/macros/s/AKfycbyIH_xVueM5F7-RWg9CoNUdeZRQ-i6Q9EsgateBYYYxoV_t5FVIXXXP-CgI9A7GnkNm4A/exec`;
-  
-  // Inject language context into the system prompt dynamiclly
-  const langContext = ` IMPORTANT: The user's preferred language is ${currentLang}. 
-    - If language is 'hi', respond in Hindi. 
-    - If language is 'ta', respond in Tamil. 
+
+  const langContext = ` IMPORTANT: The user's preferred language is ${currentLang}.
+    - If language is 'hi', respond in Hindi.
+    - If language is 'ta', respond in Tamil.
     - Always maintain the expert ElectAssist persona regardless of language.`;
 
   const body = {
@@ -331,73 +433,64 @@ async function callGemini(userText) {
     generationConfig: { maxOutputTokens: 1000, temperature: 0.4 },
     tools: [{ googleSearch: {} }]
   };
+
   const res = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'text/plain' },
     body: JSON.stringify(body)
   });
+
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
     const msg = err?.error?.message || res.statusText;
     throw new Error(msg);
   }
+
   const data = await res.json();
   return data.candidates?.[0]?.content?.parts?.[0]?.text || 'No response received.';
 }
 
-function getFallbackResponse(text) {
-  const t = text.toLowerCase();
-  if (t.includes('register') || t.includes('voter id') || t.includes('form 6')) {
-    return "To register as a voter in India:\n\n• Visit **voters.eci.gov.in** or use the **Voter Helpline App**\n• Fill **Form 6** online\n• Upload age proof (Aadhaar/birth certificate) and address proof\n• Submit and track your application\n• Collect your EPIC card or download e-EPIC\n\n💡 You can also visit your local Electoral Registration Officer (ERO) office in person.";
-  }
-  if (t.includes('evm') || t.includes('electronic voting')) {
-    return "**EVM (Electronic Voting Machine)**:\n\n• A standalone device with **no internet/network connection**\n• Has two units: Control Unit (with polling officer) + Ballot Unit (where you vote)\n• Uses **one-time programmable chips** — cannot be remotely tampered\n• **VVPAT** prints a paper slip visible for 7 seconds to verify your vote\n• Upheld as secure and reliable by the **Supreme Court of India**";
-  }
-  if (t.includes('vvpat')) {
-    return "**VVPAT (Voter Verifiable Paper Audit Trail)**:\n\n• Attached to the EVM ballot unit\n• When you press a button, it prints a slip showing the **candidate name and symbol**\n• The slip is visible through a transparent window for **7 seconds**\n• It then falls into a sealed box for audit purposes\n• Introduced to enhance **voter confidence and transparency**";
-  }
-  if (t.includes('nota')) {
-    return "**NOTA (None of the Above)**:\n\n• Allows you to reject ALL candidates on the ballot\n• Introduced in **2013** after a Supreme Court directive\n• Appears as the last option on the EVM\n• If NOTA gets the most votes, the **candidate with the next highest votes still wins**\n• Your NOTA vote is counted and publicly disclosed in results";
-  }
-  if (t.includes('booth') || t.includes('polling station') || t.includes('where to vote')) {
-    return "To find your polling booth:\n\n• Visit **voters.eci.gov.in** → Search by EPIC number or name\n• Use the **Voter Helpline App** (available on Android/iOS)\n• Call the toll-free helpline: **1950**\n• Contact your local **BLO (Booth Level Officer)**\n• Check your **Voter Slip** distributed before polling day";
-  }
-  if (t.includes('document') || t.includes('id') || t.includes('bring') || t.includes('valid')) {
-    return "**12 Valid IDs accepted at polling stations:**\n\n1. Voter ID (EPIC card)\n2. Aadhaar Card\n3. MNREGA Job Card\n4. Bank/Post Office Passbook with photo\n5. Health Insurance Smart Card\n6. Driving License\n7. PAN Card\n8. Smart Card (RGI)\n9. Indian Passport\n10. Pension document with photo\n11. Service ID card (Central/State Govt)\n12. Unique Disability ID (UDID) Card\n\n💡 Your **name must be in the electoral roll** regardless of which ID you carry.";
-  }
-  if (t.includes('mcc') || t.includes('model code')) {
-    return "**Model Code of Conduct (MCC)**:\n\n• Issued by ECI; comes into force **on the day of election announcement**\n• Prohibits ruling government from announcing new welfare schemes\n• Bans use of state machinery for political campaigns\n• Prohibits hate speech, communal appeals, and voter bribery\n• **cVIGIL App**: Report violations with guaranteed 100-min response\n• Remains in effect until the entire election process concludes";
-  }
-  if (t.includes('report') || t.includes('violation') || t.includes('complaint') || t.includes('cvigil')) {
-    return "**How to report election violations:**\n\n🔴 **cVIGIL App** (fastest): Take photo/video of violation → Submit with GPS location → Guaranteed response within **100 minutes**\n\n📞 **Helpline 1950** (toll-free): Call from anywhere in India\n\n🌐 **ECI Website**: eci.gov.in → Citizen Services\n\n🏢 **District Election Officer**: Visit your local DEO office\n\n💡 Your complaint is tracked in real-time and remains anonymous.";
-  }
-  // Generic fallback
-  return "Great question! To get the most accurate and detailed answer, please **enter your Gemini API key** above (click the key icon) — it's free to get at [ai.google.dev](https://ai.google.dev).\n\nIn the meantime, you can explore our **Timeline**, **Voter Guide**, and **FAQ** sections for comprehensive information about Indian elections. 🗳️";
-}
-
+// ── LANGUAGE ───────────────────────────────────────────
+/**
+ * Restores the last-used language preference from localStorage on page load.
+ */
 function initLang() {
   const savedLang = localStorage.getItem('ea_lang');
   if (savedLang) {
     currentLang = savedLang;
-    document.getElementById('lang-select').value = savedLang;
+    const sel = document.getElementById('lang-select');
+    if (sel) sel.value = savedLang;
     updateUILanguage();
   }
 }
 
+/**
+ * Persists the current language to localStorage and updates the page lang attribute.
+ */
 function updateUILanguage() {
   localStorage.setItem('ea_lang', currentLang);
-  // We can add logic here to translate static labels like "Ask AI", "Timeline" etc.
-  // For now, it mainly affects the AI response language
+  document.documentElement.lang = currentLang;
 }
 
 // ── SCROLL ANIMATIONS ──────────────────────────────────
+/**
+ * Sets up an IntersectionObserver to add the 'visible' class when elements scroll into view.
+ */
 function initScrollAnimations() {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.1 });
+  const observer = new IntersectionObserver(
+    entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+    { threshold: 0.1 }
+  );
   document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
 }
 
+// ── UTILITIES ──────────────────────────────────────────
+/**
+ * Converts basic Markdown to HTML and sanitizes input against XSS.
+ * Sanitization (escHtml) runs first so Markdown is applied to safe text only.
+ * @param {string} text - Raw message text (may contain Markdown)
+ * @returns {string} HTML-safe formatted string
+ */
 function formatMsg(text) {
   return escHtml(text)
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
@@ -406,6 +499,16 @@ function formatMsg(text) {
     .replace(/• /g, '• ');
 }
 
+/**
+ * Escapes HTML special characters to prevent XSS injection.
+ * @param {string} text - Raw input string
+ * @returns {string} HTML-escaped string safe for innerHTML
+ */
 function escHtml(text) {
-  return text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  return String(text)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
