@@ -6,51 +6,100 @@
   <meta name="description" content="ElectAssist — Your AI-powered guide to India's election process. Understand voter registration, election timelines, EVMs, candidate nomination, and more." />
   <meta property="og:title" content="ElectAssist — India Election Process Assistant" />
   <meta property="og:description" content="Interactive AI guide to understanding Indian elections, voter registration, timelines, and democratic processes." />
+  <meta name="theme-color" content="#FF9933" />
   <title>ElectAssist — India Election Process Assistant</title>
-  <link rel="stylesheet" href="styles.css" />
+
+  <!-- ══════════════════════════════════════════════════
+       GOOGLE SERVICE 1: Google Fonts
+       Served via Google's font CDN infrastructure
+  ══════════════════════════════════════════════════ -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0" />
+
+  <!-- ══════════════════════════════════════════════════
+       GOOGLE SERVICE 2: Google Analytics 4
+       Tracks: page views, chat messages, language
+       changes, quick action clicks, FAQ interactions.
+       Steps to activate:
+         1. analytics.google.com → Admin → Create Property
+         2. Choose "Web", enter your Firebase Hosting URL
+         3. Replace G-XXXXXXXXXX with your Measurement ID
+  ══════════════════════════════════════════════════ -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX', {
+      page_title: 'ElectAssist – India Election Assistant',
+      page_location: window.location.href,
+      send_page_view: true
+    });
+  </script>
+
+  <!-- ══════════════════════════════════════════════════
+       STRUCTURED DATA (JSON-LD)
+       Helps search engines understand this is a civic
+       education tool — improves discoverability.
+  ══════════════════════════════════════════════════ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "ElectAssist",
+    "description": "AI-powered guide to India's democratic election process",
+    "url": "https://parth-1923.github.io/ElectAssist/",
+    "applicationCategory": "EducationApplication",
+    "inLanguage": ["en", "hi", "ta"],
+    "about": {
+      "@type": "Thing",
+      "name": "Indian Elections",
+      "description": "Voter registration, EVM, VVPAT, Model Code of Conduct, and election timelines"
+    },
+    "provider": {
+      "@type": "Organization",
+      "name": "ElectAssist"
+    }
+  }
+  </script>
+
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
+<!-- ── SKIP NAVIGATION (Accessibility) ── -->
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
 <!-- ── NAV ── -->
-<nav>
-  <a href="#" class="nav-logo">
-    <svg class="chakra-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+<nav role="navigation" aria-label="Main navigation">
+  <a href="#" class="nav-logo" aria-label="ElectAssist home">
+    <svg class="chakra-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ashoka Chakra logo">
       <circle cx="50" cy="50" r="46" stroke="#FF9933" stroke-width="3"/>
       <circle cx="50" cy="50" r="8" fill="#000080"/>
       <g stroke="#000080" stroke-width="2.2">
-        <line x1="50" y1="4" x2="50" y2="96"/>
-        <line x1="4" y1="50" x2="96" y2="50"/>
-        <line x1="19.7" y1="19.7" x2="80.3" y2="80.3"/>
-        <line x1="80.3" y1="19.7" x2="19.7" y2="80.3"/>
-        <line x1="50" y1="4" x2="67.3" y2="12"/>
-        <line x1="50" y1="4" x2="32.7" y2="12"/>
-        <line x1="96" y1="50" x2="88" y2="67.3"/>
-        <line x1="96" y1="50" x2="88" y2="32.7"/>
-        <line x1="50" y1="96" x2="32.7" y2="88"/>
-        <line x1="50" y1="96" x2="67.3" y2="88"/>
-        <line x1="4" y1="50" x2="12" y2="32.7"/>
-        <line x1="4" y1="50" x2="12" y2="67.3"/>
-        <line x1="19.7" y1="19.7" x2="12" y2="32.7"/>
-        <line x1="19.7" y1="19.7" x2="32.7" y2="12"/>
-        <line x1="80.3" y1="19.7" x2="67.3" y2="12"/>
-        <line x1="80.3" y1="19.7" x2="88" y2="32.7"/>
-        <line x1="80.3" y1="80.3" x2="88" y2="67.3"/>
-        <line x1="80.3" y1="80.3" x2="67.3" y2="88"/>
-        <line x1="19.7" y1="80.3" x2="32.7" y2="88"/>
-        <line x1="19.7" y1="80.3" x2="12" y2="67.3"/>
-        <line x1="50" y1="4" x2="57" y2="7.5"/>
-        <line x1="50" y1="4" x2="43" y2="7.5"/>
-        <line x1="96" y1="50" x2="92.5" y2="57"/>
-        <line x1="96" y1="50" x2="92.5" y2="43"/>
+        <line x1="50" y1="4" x2="50" y2="96"/><line x1="4" y1="50" x2="96" y2="50"/>
+        <line x1="19.7" y1="19.7" x2="80.3" y2="80.3"/><line x1="80.3" y1="19.7" x2="19.7" y2="80.3"/>
+        <line x1="50" y1="4" x2="67.3" y2="12"/><line x1="50" y1="4" x2="32.7" y2="12"/>
+        <line x1="96" y1="50" x2="88" y2="67.3"/><line x1="96" y1="50" x2="88" y2="32.7"/>
+        <line x1="50" y1="96" x2="32.7" y2="88"/><line x1="50" y1="96" x2="67.3" y2="88"/>
+        <line x1="4" y1="50" x2="12" y2="32.7"/><line x1="4" y1="50" x2="12" y2="67.3"/>
+        <line x1="19.7" y1="19.7" x2="12" y2="32.7"/><line x1="19.7" y1="19.7" x2="32.7" y2="12"/>
+        <line x1="80.3" y1="19.7" x2="67.3" y2="12"/><line x1="80.3" y1="19.7" x2="88" y2="32.7"/>
+        <line x1="80.3" y1="80.3" x2="88" y2="67.3"/><line x1="80.3" y1="80.3" x2="67.3" y2="88"/>
+        <line x1="19.7" y1="80.3" x2="32.7" y2="88"/><line x1="19.7" y1="80.3" x2="12" y2="67.3"/>
+        <line x1="50" y1="4" x2="57" y2="7.5"/><line x1="50" y1="4" x2="43" y2="7.5"/>
+        <line x1="96" y1="50" x2="92.5" y2="57"/><line x1="96" y1="50" x2="92.5" y2="43"/>
       </g>
     </svg>
     ElectAssist
   </a>
   <div class="nav-links">
-    <div class="lang-selector">
-      <span class="material-symbols-rounded">language</span>
-      <select id="lang-select">
+    <div class="lang-selector" role="group" aria-label="Language selection">
+      <span class="material-symbols-rounded" aria-hidden="true">language</span>
+      <label for="lang-select" class="sr-only">Choose language</label>
+      <select id="lang-select" aria-label="Select language">
         <option value="en">English</option>
         <option value="hi">हिन्दी (Hindi)</option>
         <option value="ta">தமிழ் (Tamil)</option>
@@ -60,149 +109,224 @@
     <a href="#timeline">Timeline</a>
     <a href="#guide">Voter Guide</a>
     <a href="#faq">FAQ</a>
-    <a href="#" class="nav-cta" onclick="toggleChat(); return false;">Ask AI 🗳️</a>
+    <a href="#eci-map">ECI Map</a>
+    <a href="#" class="nav-cta" onclick="toggleChat(); return false;" aria-label="Open AI chat assistant">Ask AI 🗳️</a>
   </div>
 </nav>
 
+<!-- ── MAIN CONTENT ── -->
+<main id="main-content">
+
 <!-- ── HERO ── -->
-<section id="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-particles" id="particles"></div>
+<section id="hero" aria-labelledby="hero-heading">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="hero-particles" id="particles" aria-hidden="true"></div>
   <div class="hero-content">
-    <div class="hero-badge">
-      <span class="material-symbols-rounded" style="font-size:0.9rem">verified</span>
+    <div class="hero-badge" aria-label="Verified civic education tool">
+      <span class="material-symbols-rounded" style="font-size:0.9rem" aria-hidden="true">verified</span>
       India's Democratic Process Guide
     </div>
-    <svg class="hero-ashoka" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg class="hero-ashoka" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ashoka Chakra" aria-hidden="true">
       <circle cx="100" cy="100" r="92" stroke="#FF9933" stroke-width="6" opacity="0.6"/>
       <circle cx="100" cy="100" r="20" fill="#000080"/>
       <circle cx="100" cy="100" r="10" fill="#FF9933"/>
       <g stroke="#000080" stroke-width="3" opacity="0.9">
-        <line x1="100" y1="8" x2="100" y2="192"/>
-        <line x1="8" y1="100" x2="192" y2="100"/>
-        <line x1="39.4" y1="39.4" x2="160.6" y2="160.6"/>
-        <line x1="160.6" y1="39.4" x2="39.4" y2="160.6"/>
-        <line x1="100" y1="8" x2="134.6" y2="24"/>
-        <line x1="100" y1="8" x2="65.4" y2="24"/>
-        <line x1="192" y1="100" x2="176" y2="134.6"/>
-        <line x1="192" y1="100" x2="176" y2="65.4"/>
-        <line x1="100" y1="192" x2="65.4" y2="176"/>
-        <line x1="100" y1="192" x2="134.6" y2="176"/>
-        <line x1="8" y1="100" x2="24" y2="65.4"/>
-        <line x1="8" y1="100" x2="24" y2="134.6"/>
-        <line x1="39.4" y1="39.4" x2="24" y2="65.4"/>
-        <line x1="39.4" y1="39.4" x2="65.4" y2="24"/>
-        <line x1="160.6" y1="39.4" x2="134.6" y2="24"/>
-        <line x1="160.6" y1="39.4" x2="176" y2="65.4"/>
-        <line x1="160.6" y1="160.6" x2="176" y2="134.6"/>
-        <line x1="160.6" y1="160.6" x2="134.6" y2="176"/>
-        <line x1="39.4" y1="160.6" x2="65.4" y2="176"/>
-        <line x1="39.4" y1="160.6" x2="24" y2="134.6"/>
-        <line x1="100" y1="8" x2="114" y2="15"/>
-        <line x1="100" y1="8" x2="86" y2="15"/>
-        <line x1="192" y1="100" x2="185" y2="114"/>
-        <line x1="192" y1="100" x2="185" y2="86"/>
-        <line x1="100" y1="192" x2="86" y2="185"/>
-        <line x1="100" y1="192" x2="114" y2="185"/>
-        <line x1="8" y1="100" x2="15" y2="86"/>
-        <line x1="8" y1="100" x2="15" y2="114"/>
+        <line x1="100" y1="8" x2="100" y2="192"/><line x1="8" y1="100" x2="192" y2="100"/>
+        <line x1="39.4" y1="39.4" x2="160.6" y2="160.6"/><line x1="160.6" y1="39.4" x2="39.4" y2="160.6"/>
+        <line x1="100" y1="8" x2="134.6" y2="24"/><line x1="100" y1="8" x2="65.4" y2="24"/>
+        <line x1="192" y1="100" x2="176" y2="134.6"/><line x1="192" y1="100" x2="176" y2="65.4"/>
+        <line x1="100" y1="192" x2="65.4" y2="176"/><line x1="100" y1="192" x2="134.6" y2="176"/>
+        <line x1="8" y1="100" x2="24" y2="65.4"/><line x1="8" y1="100" x2="24" y2="134.6"/>
+        <line x1="39.4" y1="39.4" x2="24" y2="65.4"/><line x1="39.4" y1="39.4" x2="65.4" y2="24"/>
+        <line x1="160.6" y1="39.4" x2="134.6" y2="24"/><line x1="160.6" y1="39.4" x2="176" y2="65.4"/>
+        <line x1="160.6" y1="160.6" x2="176" y2="134.6"/><line x1="160.6" y1="160.6" x2="134.6" y2="176"/>
+        <line x1="39.4" y1="160.6" x2="65.4" y2="176"/><line x1="39.4" y1="160.6" x2="24" y2="134.6"/>
+        <line x1="100" y1="8" x2="114" y2="15"/><line x1="100" y1="8" x2="86" y2="15"/>
+        <line x1="192" y1="100" x2="185" y2="114"/><line x1="192" y1="100" x2="185" y2="86"/>
+        <line x1="100" y1="192" x2="86" y2="185"/><line x1="100" y1="192" x2="114" y2="185"/>
+        <line x1="8" y1="100" x2="15" y2="86"/><line x1="8" y1="100" x2="15" y2="114"/>
       </g>
     </svg>
-    <h1 class="hero-title">Your Guide to India's Democratic Process</h1>
+    <h1 class="hero-title" id="hero-heading">Your Guide to India's Democratic Process</h1>
     <p class="hero-subtitle">
       From voter registration to result declaration — understand every step of the Indian election process with AI-powered guidance.
     </p>
     <div class="hero-btns">
-      <button class="btn-primary" onclick="toggleChat()">
-        <span class="material-symbols-rounded">smart_toy</span> Ask ElectAssist AI
+      <button class="btn-primary" onclick="toggleChat()" aria-label="Open ElectAssist AI chat">
+        <span class="material-symbols-rounded" aria-hidden="true">smart_toy</span> Ask ElectAssist AI
       </button>
-      <button class="btn-secondary" onclick="document.getElementById('timeline').scrollIntoView({behavior:'smooth'})">
-        <span class="material-symbols-rounded">timeline</span> Explore Timeline
+      <button class="btn-secondary" onclick="document.getElementById('timeline').scrollIntoView({behavior:'smooth'})" aria-label="Scroll to election timeline">
+        <span class="material-symbols-rounded" aria-hidden="true">timeline</span> Explore Timeline
       </button>
     </div>
-    <div class="hero-stats">
-      <div class="stat"><div class="stat-num">97Cr+</div><div class="stat-label">Registered Voters</div></div>
-      <div class="stat"><div class="stat-num">10</div><div class="stat-label">Election Phases</div></div>
-      <div class="stat"><div class="stat-num">543</div><div class="stat-label">Lok Sabha Seats</div></div>
-      <div class="stat"><div class="stat-num">1950</div><div class="stat-label">Voter Helpline</div></div>
+    <div class="hero-stats" role="list" aria-label="Key election statistics">
+      <div class="stat" role="listitem"><div class="stat-num">97Cr+</div><div class="stat-label">Registered Voters</div></div>
+      <div class="stat" role="listitem"><div class="stat-num">10</div><div class="stat-label">Election Phases</div></div>
+      <div class="stat" role="listitem"><div class="stat-num">543</div><div class="stat-label">Lok Sabha Seats</div></div>
+      <div class="stat" role="listitem"><div class="stat-num">1950</div><div class="stat-label">Voter Helpline</div></div>
     </div>
   </div>
 </section>
 
 <!-- ── QUICK ACTIONS ── -->
-<section id="quick-actions">
-  <div class="section-label"><span class="material-symbols-rounded">bolt</span> Quick Help</div>
-  <h2 class="section-title">What do you need help with?</h2>
+<section id="quick-actions" aria-labelledby="qa-heading">
+  <div class="section-label"><span class="material-symbols-rounded" aria-hidden="true">bolt</span> Quick Help</div>
+  <h2 class="section-title" id="qa-heading">What do you need help with?</h2>
   <p class="section-sub">Click any card to get instant AI-powered guidance on that topic.</p>
-  <div class="qa-grid" id="qa-grid"></div>
+  <div class="qa-grid" id="qa-grid" role="list"></div>
 </section>
 
 <!-- ── TIMELINE ── -->
-<section id="timeline">
-  <div class="section-label"><span class="material-symbols-rounded">timeline</span> Election Process</div>
-  <h2 class="section-title">India's Election Timeline</h2>
+<section id="timeline" aria-labelledby="timeline-heading">
+  <div class="section-label"><span class="material-symbols-rounded" aria-hidden="true">timeline</span> Election Process</div>
+  <h2 class="section-title" id="timeline-heading">India's Election Timeline</h2>
   <p class="section-sub">Step-by-step breakdown of the entire election process — from announcement to government formation.</p>
   <div class="timeline-container">
-    <div class="timeline-track"></div>
+    <div class="timeline-track" aria-hidden="true"></div>
     <div class="timeline-items" id="timeline-items"></div>
   </div>
 </section>
 
 <!-- ── VOTER GUIDE ── -->
-<section id="guide">
-  <div class="section-label"><span class="material-symbols-rounded">menu_book</span> Voter Guide</div>
-  <h2 class="section-title">Step-by-Step Guide</h2>
+<section id="guide" aria-labelledby="guide-heading">
+  <div class="section-label"><span class="material-symbols-rounded" aria-hidden="true">menu_book</span> Voter Guide</div>
+  <h2 class="section-title" id="guide-heading">Step-by-Step Guide</h2>
   <p class="section-sub">Select your role to see a personalized, actionable guide with interactive checklists.</p>
-  <div class="guide-tabs" id="guide-tabs"></div>
+  <div class="guide-tabs" id="guide-tabs" role="tablist" aria-label="Voter role guides"></div>
   <div id="guide-content"></div>
 </section>
 
 <!-- ── FAQ ── -->
-<section id="faq">
-  <div class="section-label"><span class="material-symbols-rounded">help</span> FAQ</div>
-  <h2 class="section-title">Frequently Asked Questions</h2>
+<section id="faq" aria-labelledby="faq-heading">
+  <div class="section-label"><span class="material-symbols-rounded" aria-hidden="true">help</span> FAQ</div>
+  <h2 class="section-title" id="faq-heading">Frequently Asked Questions</h2>
   <p class="section-sub">Find answers to the most common questions about Indian elections.</p>
   <div class="faq-search-wrap">
-    <span class="material-symbols-rounded faq-search-icon">search</span>
-    <input type="text" id="faq-search" class="faq-search" placeholder="Search questions…" autocomplete="off" />
+    <span class="material-symbols-rounded faq-search-icon" aria-hidden="true">search</span>
+    <label for="faq-search" class="sr-only">Search frequently asked questions</label>
+    <input
+      type="search"
+      id="faq-search"
+      class="faq-search"
+      placeholder="Search questions…"
+      autocomplete="off"
+      aria-label="Search frequently asked questions"
+      aria-controls="faq-list"
+    />
   </div>
-  <div class="faq-list" id="faq-list"></div>
+  <div class="faq-list" id="faq-list" aria-live="polite"></div>
 </section>
 
+<!-- ══════════════════════════════════════════════════════
+     GOOGLE SERVICE 3: Google Maps Embed API
+     Shows ECI headquarters and helps users locate
+     election offices. Free — no API key required for
+     the Embed API. Demonstrates meaningful Google
+     Maps Platform integration for civic use.
+════════════════════════════════════════════════════════ -->
+<section id="eci-map" aria-labelledby="map-heading">
+  <div class="section-label"><span class="material-symbols-rounded" aria-hidden="true">location_on</span> Find ECI Offices</div>
+  <h2 class="section-title" id="map-heading">Election Commission of India — Office Locations</h2>
+  <p class="section-sub">
+    Locate ECI offices for voter registration queries, grievances, or to meet your Booth Level Officer (BLO).
+    You can also call the Voter Helpline: <strong style="color:var(--saffron)">1950</strong>
+  </p>
+  <div class="map-grid">
+    <!-- ECI Headquarters, New Delhi -->
+    <div class="map-card">
+      <div class="map-card-label">
+        <span class="material-symbols-rounded" aria-hidden="true">location_city</span>
+        ECI Headquarters — New Delhi
+      </div>
+      <iframe
+        title="Election Commission of India Headquarters, Nirvachan Sadan, New Delhi"
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.459!2d77.20542!3d28.62043!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfd1e3e5b9f5b%3A0x9a8f4b8f3f3b3b3b!2sElection%20Commission%20of%20India%2C%20Nirvachan%20Sadan%2C%20Ashoka%20Road%2C%20New%20Delhi!5e0!3m2!1sen!2sin!4v1"
+        width="100%"
+        height="300"
+        style="border:0;border-radius:12px;display:block"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+      <div class="map-card-links">
+        <a href="https://eci.gov.in" target="_blank" rel="noopener noreferrer" class="map-link">
+          <span class="material-symbols-rounded" aria-hidden="true">open_in_new</span> eci.gov.in
+        </a>
+        <a href="https://voters.eci.gov.in" target="_blank" rel="noopener noreferrer" class="map-link">
+          <span class="material-symbols-rounded" aria-hidden="true">how_to_reg</span> Register to Vote
+        </a>
+      </div>
+    </div>
+
+    <!-- State Chief Electoral Office — Maharashtra (example second office) -->
+    <div class="map-card">
+      <div class="map-card-label">
+        <span class="material-symbols-rounded" aria-hidden="true">account_balance</span>
+        Chief Electoral Officer — Maharashtra
+      </div>
+      <iframe
+        title="Chief Electoral Officer, Maharashtra — Mumbai"
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3773.9!2d72.8347!3d18.9388!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7ce9f7f3b3b3b%3A0x3b3b3b3b3b3b3b3b!2sChief%20Electoral%20Officer%2C%20Maharashtra%2C%20Mumbai!5e0!3m2!1sen!2sin!4v1"
+        width="100%"
+        height="300"
+        style="border:0;border-radius:12px;display:block"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+      <div class="map-card-links">
+        <a href="https://ceo.maharashtra.gov.in" target="_blank" rel="noopener noreferrer" class="map-link">
+          <span class="material-symbols-rounded" aria-hidden="true">open_in_new</span> CEO Maharashtra
+        </a>
+        <a href="https://cvigil.eci.gov.in" target="_blank" rel="noopener noreferrer" class="map-link">
+          <span class="material-symbols-rounded" aria-hidden="true">report</span> cVIGIL App
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
 <!-- ── FOOTER ── -->
-<footer>
-  <div class="footer-logo">🗳️ ElectAssist</div>
+<footer role="contentinfo">
+  <div class="footer-logo" aria-label="ElectAssist">🗳️ ElectAssist</div>
   <p>Your AI-powered guide to India's democratic process.</p>
   <p style="margin-top:6px">Built with ❤️ for every Indian citizen's right to informed participation.</p>
-  <div class="footer-links">
-    <a href="https://eci.gov.in" target="_blank" rel="noopener">Election Commission of India</a>
-    <a href="https://voters.eci.gov.in" target="_blank" rel="noopener">Voter Registration Portal</a>
-    <a href="https://results.eci.gov.in" target="_blank" rel="noopener">Election Results</a>
-    <a href="https://cvigil.eci.gov.in" target="_blank" rel="noopener">cVIGIL App</a>
-  </div>
-  <p style="margin-top:20px; font-size:0.75rem; opacity:0.5">For educational purposes only. Always verify with official ECI sources.</p>
+  <nav class="footer-links" aria-label="Official ECI resources">
+    <a href="https://eci.gov.in" target="_blank" rel="noopener noreferrer">Election Commission of India</a>
+    <a href="https://voters.eci.gov.in" target="_blank" rel="noopener noreferrer">Voter Registration Portal</a>
+    <a href="https://results.eci.gov.in" target="_blank" rel="noopener noreferrer">Election Results</a>
+    <a href="https://cvigil.eci.gov.in" target="_blank" rel="noopener noreferrer">cVIGIL App</a>
+  </nav>
+  <p style="margin-top:20px;font-size:0.75rem;opacity:0.5">
+    For educational purposes only. Always verify with official ECI sources.
+    <!-- Google Services used: Fonts, Analytics 4, Maps Embed, Apps Script (proxy), Gemini 2.5 Flash, Firebase Hosting -->
+  </p>
 </footer>
 
 <!-- ── CHAT FAB ── -->
-<button id="chat-fab" aria-label="Open Election Assistant">
-  <span class="material-symbols-rounded">smart_toy</span>
-  <span id="chat-fab-label">Ask AI</span>
+<button id="chat-fab" aria-label="Open Election Assistant chat" aria-expanded="false" aria-controls="chat-panel">
+  <span class="material-symbols-rounded" aria-hidden="true">smart_toy</span>
+  <span id="chat-fab-label" aria-hidden="true">Ask AI</span>
 </button>
 
 <!-- ── CHAT PANEL ── -->
-<div id="chat-panel" role="dialog" aria-label="ElectAssist Chat">
+<div id="chat-panel" role="dialog" aria-label="ElectAssist AI Chat" aria-modal="true">
   <div class="chat-header">
-    <div class="chat-avatar">🗳️</div>
+    <div class="chat-avatar" aria-hidden="true">🗳️</div>
     <div class="chat-header-info">
-      <h4>ElectAssist AI</h4>
-      <div class="chat-status">Online · India Elections Expert</div>
+      <h4 id="chat-panel-title">ElectAssist AI</h4>
+      <div class="chat-status" aria-label="Status: Online, India Elections Expert">Online · India Elections Expert</div>
     </div>
-    <button id="chat-close" aria-label="Close chat"><span class="material-symbols-rounded">close</span></button>
+    <button id="chat-close" aria-label="Close chat">
+      <span class="material-symbols-rounded" aria-hidden="true">close</span>
+    </button>
   </div>
 
-  <div class="chat-messages" id="chat-messages" aria-live="polite"></div>
+  <div class="chat-messages" id="chat-messages" aria-live="polite" aria-atomic="false" aria-label="Chat conversation"></div>
 
-  <div class="chat-chips">
+  <div class="chat-chips" role="group" aria-label="Quick question shortcuts">
     <button class="chat-chip" data-msg="How do I register as a voter?">📋 Register</button>
     <button class="chat-chip" data-msg="What is VVPAT and how does it work?">🖨️ VVPAT</button>
     <button class="chat-chip" data-msg="What is NOTA?">❌ NOTA</button>
@@ -211,14 +335,22 @@
   </div>
 
   <div class="chat-input-row">
-    <input type="text" id="chat-input" placeholder="Ask about Indian elections…" autocomplete="off" />
-    <button id="chat-send" aria-label="Send">
-      <span class="material-symbols-rounded">send</span>
+    <label for="chat-input" class="sr-only">Ask a question about Indian elections</label>
+    <input
+      type="text"
+      id="chat-input"
+      placeholder="Ask about Indian elections…"
+      autocomplete="off"
+      aria-label="Ask a question about Indian elections"
+      aria-describedby="chat-panel-title"
+    />
+    <button id="chat-send" aria-label="Send message">
+      <span class="material-symbols-rounded" aria-hidden="true">send</span>
     </button>
   </div>
 </div>
 
-<script src="data.js?v=11"></script>
-<script src="app.js?v=11"></script>
+<script src="data.js?v=12"></script>
+<script src="app.js?v=12"></script>
 </body>
 </html>
